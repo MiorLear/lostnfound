@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import DashboardLayout from './layout/DashboardLayout';
 import Users from './pages/Users';
+import Main from './pages/Main';
 
 function App() {
   return (
@@ -8,7 +9,7 @@ function App() {
       <DashboardLayout>
         <Routes>
           <Route path="/users" element={<Users />} />
-          <Route path="/" element={<div>Bienvenido al Dashboard</div>} />
+          <Route path="/main" element={<Main/>} />
         </Routes>
       </DashboardLayout>
     </BrowserRouter>

@@ -1,4 +1,5 @@
+import UserTable from "../components/UserTable";
 
-export default function main() {
-  return ;
+export default function Users() {
+  return <UserTable />;
 }
