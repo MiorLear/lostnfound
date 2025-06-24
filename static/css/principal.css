@@ -51,6 +51,9 @@ body {
 .history-section {
     position: relative;
     height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     overflow: hidden;
     color: white;
 }
@@ -60,19 +63,23 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 120%;
     background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../img/fondo2.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
     z-index: -1;
+    will-change: transform;
 }
 
 .history-content {
+    z-index: 1;
     padding: 4rem;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.75);
     border-radius: 10px;
-    margin-top: 10vh;
+    max-width: 700px;
+    text-align: center;
+    transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .history-btn {
@@ -95,27 +102,29 @@ body {
     .hero-section {
         text-align: center;
     }
-    
+
     .hero-section p {
         max-width: 100%;
         margin: 0 auto 2rem;
     }
-    
+
     .hero-section h1 {
         font-size: 2.5rem;
     }
-    
+
     .history-content {
         padding: 2rem;
-        margin-top: 5vh;
+        margin: 0 1rem;
     }
-    
+
     .history-section {
         height: auto;
         padding: 4rem 0;
+        flex-direction: column;
     }
-    
+
     .parallax-bg {
         background-attachment: scroll;
+        height: 100%;
     }
 }
