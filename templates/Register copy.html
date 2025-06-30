@@ -15,9 +15,8 @@
             <img src="{{ url_for('static', filename='img/Keylogo.png') }}" alt="Logo Key">
         </div>
         <ul class="nav-list">
-            <li><a href="{{ url_for('registro') }}"><i class="icon"></i>Registro</a></li>
+            <li><a href="{{ url_for('lost_objects_bp.Lost_Objects') }}"><i class="icon"></i>Registro</a></li>
             <li><a href="#"><i class="icon"></i>Reporte</a></li>
-            <li><a href="{{ url_for('dashboard') }}"><i class="icon"></i>Volver</a></li>
         </ul>
     </div>
 
@@ -43,7 +42,7 @@
                     <select id="categoria" name="categoria" class="form-select" required>
                         <option value="">Selecciona una categoría</option>
                         {% for cat in categorias %}
-                            <option value="{{ cat.id_categoria }}">{{ cat.nombre_categoria }}</option>
+                            <option value="{{ cat.category_id }}">{{ cat.category_name }}</option>
                         {% endfor %}
                     </select>
                 </div>
