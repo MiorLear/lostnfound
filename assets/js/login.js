@@ -52,7 +52,7 @@ function setupLoginForm() {
             
             setTimeout(() => {
                 // Aquí iría tu lógica de autenticación real
-                window.location.href = '/dashboard';  // Redirigir después del login
+                window.location.href = '/Control_Panel';  // Redirigir después del login
             }, 1500);
         });
 
