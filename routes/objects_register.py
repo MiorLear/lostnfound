@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from modules.objects import register_lost_object
+from modules.objects import register_found_object
 from modules.helpers import get_users_short_list, get_categories_short_list
 import traceback
 
@@ -17,7 +17,7 @@ def Objects_Register():
                 found_place = request.form['found_place']
                 extra_comments = request.form['extra_comments']
 
-                register_lost_object(object_name, object_description, category_id, student, found_place, extra_comments)
+                register_found_object(object_name, object_description, category_id, student, found_place, extra_comments)
                 return redirect(url_for('control_panel_bp.Control_Panel'))
 
             except Exception as e:

@@ -4,14 +4,12 @@ from routes.login import login_bp
 from routes.landing import landing_bp
 from routes.lost_objects import lost_objects_bp
 from routes.found_objects import found_objects_bp
-from routes.objects_register import objects_register_bp
 
 
 app = Flask(__name__, static_folder='assets')
 
 app.register_blueprint(lost_objects_bp)
 app.register_blueprint(found_objects_bp)
-app.register_blueprint(objects_register_bp)
 app.register_blueprint(landing_bp)
 app.register_blueprint(control_panel_bp)
 app.register_blueprint(login_bp)

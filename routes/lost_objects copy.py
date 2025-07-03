@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from modules.objects import register_lost_object
+from modules.objects import register_found_object
 from modules.helpers import get_users_short_list, get_categories_short_list
 
 lost_objects_bp = Blueprint('lost_objects_bp', __name__)
@@ -16,7 +16,7 @@ def Lost_Objects():
             lugar = request.form['lugar_encontrado']
             fecha_perdida = request.form['fecha_encontrado']
 
-            register_lost_object(alumno, nombre_objeto, descripcion, lugar, fecha_perdida, id_categoria)
+            register_found_object(alumno, nombre_objeto, descripcion, lugar, fecha_perdida, id_categoria)
             return redirect(url_for('dashboard'))
 
         except Exception as e:
@@ -25,4 +25,4 @@ def Lost_Objects():
 
     usuarios = get_users_short_list()
     categorias = get_categories_short_list()
-    return render_template('Report_Losts.html', usuarios=usuarios, categorias=categorias)
+    return render_template('Lost_Objects.html', usuarios=usuarios, categorias=categorias)
