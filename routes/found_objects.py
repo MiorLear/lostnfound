@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from modules.objects import register_found_object, load_found_objects
+from modules.objects import register_found_object, load_found_objects, change_object_tatus
 from modules.helpers import get_users_short_list, get_categories_short_list
 from werkzeug.utils import secure_filename
 import os, traceback
@@ -39,3 +39,10 @@ def Found_Objects():
             print("Error al guardar en la base de datos:", e)
             traceback.print_exc()
     return render_template('Found_Objects.html', category = get_categories_short_list(),users = get_users_short_list(), objects_db=load_found_objects())
+
+@found_objects_bp.route("/Found_Objects/<int:object_id>")
+def founded_report(object_id):
+
+    change_object_tatus(object_id)
+
+    return redirect(url_for('found_objects_bp.Found_Objects'))

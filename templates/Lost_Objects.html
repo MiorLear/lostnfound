@@ -120,7 +120,7 @@
             </div>
             <div class="modal-body">
                 <!-- Aquí va el formulario real -->
-                <form method="POST" action="/Lost_Objects">
+                <form method="POST" action="/Lost_Objects" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="object_name" class="form-label">Nombre del objeto</label>
                         <input type="text" class="form-control" maxlength="100" name="object_name" required>
@@ -138,7 +138,7 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="lost_place" class="form-label">Lugar donde se encontró</label>
+                        <label for="lost_place" class="form-label">Lugar donde se perdió</label>
                         <input type="text" maxlength="100" class="form-control" name="found_place" required>
                     </div>
                     <div class="mb-3">
@@ -181,6 +181,8 @@
                                             <th>Lugar Perdido</th>
                                             <th>Fecha de perdida</th>
                                             <th>Dueño</th>
+                                            <th>Estado del objeto</th>
+                                            <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -190,6 +192,8 @@
                                             <th>Lugar Perdido</th>
                                             <th>Fecha de perdida</th>
                                             <th>Dueño</th>
+                                            <th>Estado del objeto</th>
+                                            <th>Acciones</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -198,14 +202,36 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <a href="#" data-bs-toggle="modal" data-bs-target="#objectModal{{ object.lost_report_id }}" class="text-decoration-none d-flex align-items-center">
-                                                    <img height="32 rem" src="assets/img/uploads/{{ object.object_photo }}" class="rounded me-2" alt="{{ object.filename }}">
+                                                    <img height="32 rem" src="assets/img/uploads/{{ object.object_photo }}" class="rounded me-2" alt="{{ object.object_photo }}">
                                                     <span>{{ object.object_name }}</span>
                                                     </a>
                                                 </div>                                         
-                                            </td>                                            <td>{{ object.category_name }}</td>
+                                            </td>                       
+                                            <td>{{ object.category_name }}</td>
                                             <td>{{ object.lost_place }}</td>
                                             <td>{{ object.lost_date }}</td>
                                             <td>{{ object.user_name }}</td>
+                                            <td>
+                                                {% if object.object_status == "lost" %}
+                                                    perdido
+                                                {% elif object.object_status == "returned" %}
+                                                    devuelto
+                                                {% elif object.object_status == "found" %}
+                                                    encontrado
+                                                {% else %}
+                                                estado desconocido
+                                                {% endif %}                                        
+                                            </td>
+                                            <td>
+                                                {% if object.object_status == "lost" %}
+                                                <a href="{{ url_for('lost_objects_bp.founded_report', object_id=object.object_id) }}" 
+                                                class="btn btn-primary btn-sm">
+                                                Reportar como devuelto
+                                                </a>
+                                                {% else %}
+                                                Este objeto ya ha sido devuelto
+                                                {% endif %}                                        
+                                            </td>
                                         </tr>
                                          <div class="modal fade" id="objectModal{{ object.lost_report_id }}" tabindex="-1" aria-labelledby="objectModalLabel{{ object.lost_report_id }}" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered modal-lg">

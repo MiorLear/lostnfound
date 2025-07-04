@@ -180,6 +180,8 @@
                                             <th>Lugar Encontrado</th>
                                             <th>Fecha Encontrado</th>
                                             <th>Persona que reporta</th>
+                                            <th>Estado del objeto</th>
+                                            <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -189,6 +191,8 @@
                                             <th>Lugar Encontrado</th>
                                             <th>Fecha Encontrado</th>
                                             <th>Persona que reporta</th>
+                                            <th>Estado del objeto</th>
+                                            <th>Acciones</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -206,6 +210,27 @@
                                             <td>{{ object.found_place }}</td>
                                             <td>{{ object.found_date }}</td>
                                             <td>{{ object.user_name }}</td>
+                                            <td>
+                                                {% if object.object_status == "lost" %}
+                                                    perdido
+                                                {% elif object.object_status == "returned" %}
+                                                    devuelto
+                                                {% elif object.object_status == "found" %}
+                                                    encontrado
+                                                {% else %}
+                                                estado desconocido
+                                                {% endif %}                                        
+                                            </td>
+                                            <td>
+                                                {% if object.object_status == "lost" or object.object_status == "found" %}
+                                                <a href="{{ url_for('found_objects_bp.founded_report', object_id=object.object_id) }}" 
+                                                class="btn btn-primary btn-sm">
+                                                Reportar como devuelto
+                                                </a>
+                                                {% else %}
+                                                Este objeto ya ha sido devuelto
+                                                {% endif %}                                        
+                                            </td>
                                         </tr>
 
                                         <div class="modal fade" id="objectModal{{ object.lost_report_id }}" tabindex="-1" aria-labelledby="objectModalLabel{{ object.lost_report_id }}" aria-hidden="true">

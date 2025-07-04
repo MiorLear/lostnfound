@@ -48,7 +48,7 @@ def register_found_object(object_name, object_description, category_id, student,
     connection.commit()
     connection.close()
 
-def register_lost_object(object_name, object_description, category_id, student, found_place, extra_comments):
+def register_lost_object(object_name, object_description, category_id, student, found_place, extra_comments, object_image):
     connection = connect()
     cursor = connection.cursor()
 
@@ -57,14 +57,16 @@ def register_lost_object(object_name, object_description, category_id, student, 
             object_name,
             object_description,
             object_status,
-            object_category_id
-        ) VALUES (%s, %s, %s, %s)
+            object_category_id, 
+            object_photo
+        ) VALUES (%s, %s, %s, %s, %s)
     """
     datos = (
         object_name,
         object_description,
         "lost",
-        category_id
+        category_id,
+        object_image
     )
     cursor.execute(query, datos)
     connection.commit()
@@ -97,7 +99,7 @@ def register_lost_object(object_name, object_description, category_id, student, 
 def load_lost_objects():
     connection = connect()
     cursor = connection.cursor(dictionary=True)
-    querie = "SELECT lost_report_id, lost_report_object_id, lost_reporting_user_id, lost_date, lost_place, objects.object_name, objects.object_category_id, objects.object_photo, objects.object_status, categories.category_name, users.user_name FROM lost_reports LEFT JOIN objects ON lost_report_object_id = objects.object_id LEFT JOIN categories ON objects.object_category_id = categories.category_id LEFT JOIN users ON lost_reporting_user_id = users.user_id;"
+    querie = "SELECT lost_report_id, lost_report_object_id, lost_reporting_user_id, lost_date, lost_place, objects.object_id, objects.object_name, objects.object_category_id, objects.object_photo, objects.object_status, categories.category_name, users.user_name FROM lost_reports LEFT JOIN objects ON lost_report_object_id = objects.object_id LEFT JOIN categories ON objects.object_category_id = categories.category_id LEFT JOIN users ON lost_reporting_user_id = users.user_id;"
     cursor.execute(querie)
     objects_db = cursor.fetchall()
     connection.close()
@@ -106,7 +108,7 @@ def load_lost_objects():
 def load_lost_specific_object():
     connection = connect()
     cursor = connection.cursor(dictionary=True)
-    querie = "SELECT lost_report_id, lost_report_extra_comments, lost_reporting_user_id, lost_date, lost_place, objects.object_name, objects.object_category_id, objects.object_photo, objects.object_description, objects.object_status, categories.category_name, users.user_name FROM lost_reports LEFT JOIN objects ON lost_report_object_id = objects.object_id LEFT JOIN categories ON objects.object_category_id = categories.category_id LEFT JOIN users ON lost_reporting_user_id = users.user_id;"
+    querie = "SELECT lost_report_id, lost_report_extra_comments, lost_reporting_user_id, lost_date, lost_place, objects.object_id, objects.object_name, objects.object_category_id, objects.object_photo, objects.object_description, objects.object_status, categories.category_name, users.user_name FROM lost_reports LEFT JOIN objects ON lost_report_object_id = objects.object_id LEFT JOIN categories ON objects.object_category_id = categories.category_id LEFT JOIN users ON lost_reporting_user_id = users.user_id;"
     cursor.execute(querie)
     objects_db = cursor.fetchall()
     connection.close()
@@ -115,7 +117,7 @@ def load_lost_specific_object():
 def load_found_objects():
     connection = connect()
     cursor = connection.cursor(dictionary=True)
-    querie = "SELECT found_report_id, found_report_object_id, found_reporting_user_id, found_date, found_place, objects.object_name, objects.object_category_id, objects.object_photo, objects.object_status, categories.category_name, users.user_name FROM found_reports LEFT JOIN objects ON found_report_object_id = objects.object_id LEFT JOIN categories ON objects.object_category_id = categories.category_id LEFT JOIN users ON found_reporting_user_id = users.user_id;"
+    querie = "SELECT found_report_id, found_report_object_id, found_reporting_user_id, found_date, found_place, objects.object_id, objects.object_name, objects.object_category_id, objects.object_photo, objects.object_status, categories.category_name, users.user_name FROM found_reports LEFT JOIN objects ON found_report_object_id = objects.object_id LEFT JOIN categories ON objects.object_category_id = categories.category_id LEFT JOIN users ON found_reporting_user_id = users.user_id;"
     cursor.execute(querie)
     objects_db = cursor.fetchall()
     connection.close()
@@ -124,8 +126,22 @@ def load_found_objects():
 def load_found_specific_objects():
     connection = connect()
     cursor = connection.cursor(dictionary=True)
-    querie = "SELECT found_report_id, found_report_object_id, found_report_extra_comments, found_reporting_user_id, found_date, found_place, objects.object_name, objects.object_category_id, objects.object_photo, objects.object_description, objects.object_status, categories.category_name, users.user_name FROM found_reports LEFT JOIN objects ON found_report_object_id = objects.object_id LEFT JOIN categories ON objects.object_category_id = categories.category_id LEFT JOIN users ON found_reporting_user_id = users.user_id;"
+    querie = "SELECT found_report_id, found_report_object_id, found_report_extra_comments, found_reporting_user_id, found_date, found_place, objects.object_id, objects.object_name, objects.object_category_id, objects.object_photo, objects.object_description, objects.object_status, categories.category_name, users.user_name FROM found_reports LEFT JOIN objects ON found_report_object_id = objects.object_id LEFT JOIN categories ON objects.object_category_id = categories.category_id LEFT JOIN users ON found_reporting_user_id = users.user_id;"
     cursor.execute(querie)
     objects_db = cursor.fetchall()
     connection.close()
     return objects_db
+
+def change_object_tatus(object_id):
+    connection = connect()
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        UPDATE objects
+        SET object_status = %s
+        WHERE object_id = %s;
+    """, ("returned", object_id))
+
+    connection.commit()
+    cursor.close()
+    connection.close()
